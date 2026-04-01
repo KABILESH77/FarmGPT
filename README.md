@@ -20,6 +20,63 @@ FarmGPT is an advanced, AI-powered agricultural assistant engineered specificall
 | **Translation** | Google AI Studio (Gemini 2.5 Flash) |
 | **Voice Audio** | Browser Native Web Speech API (Free STT & TTS) |
 
+## 🏗️ System Architecture
+The application is structured into lightweight, hyper-optimized decoupled services specifically tuned for low-bandwidth rural operations.
+
+```mermaid
+graph TD
+    %% Core Users
+    Farmer[👨🌾 Farmer / User]
+    
+    %% Main Interfaces
+    subgraph Frontend [📱 FarmGPT Frontend - React + Vite + Tailwind]
+        UI[💻 Responsive Web Interface]
+        VoiceAPI[🎤 Browser Native Web Speech API <br> Speech-to-Text & Text-to-Speech]
+        Translate[🌐 Real-time Translator Engine]
+        Chat[💬 Krishi Officer Chatbot UI]
+        Upload[📸 Leaf Disease Scanner]
+    end
+
+    %% Backend Systems
+    subgraph Backend [🖥️ AI Diagnostics Microservice - Python + Flask]
+        Flask[⚙️ Flask REST API]
+        TF[🧠 TensorFlow / Keras Inference Engine]
+        Model[(📂 plantdoc_optimized_v2.keras <br> 28-Class Disease Model)]
+    end
+
+    %% External APIs
+    subgraph External_APIs [☁️ External Cloud Services]
+        Gemini[🧠 Google Gemini AI <br> Real-time Translation]
+        Groq[🤖 Groq Llama 3.3 70B <br> Agri-Advisory Chatbot]
+    end
+
+    %% Connections
+    Farmer <-->|Interacts & Uploads Photos| UI
+    UI --> VoiceAPI
+    UI --> Chat
+    UI --> Upload
+    UI <--> Translate
+    
+    Translate <-->|Fetches sub-second translations| Gemini
+    Chat <-->|Streams context-aware replies| Groq
+    Upload -->|POST /predict (Image Payload)| Flask
+    
+    Flask --> TF
+    TF --> Model
+    TF -->|Returns JSON: Disease, Severity, <br> & Treatment Plan| Flask
+    Flask -->|Result Stream| Upload
+
+    classDef human fill:#4ade80,stroke:#22c55e,stroke-width:2px,color:black,font-weight:bold;
+    classDef frontend fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:white;
+    classDef backend fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:white;
+    classDef cloud fill:#1e293b,stroke:#a855f7,stroke-width:2px,color:white;
+
+    class Farmer human;
+    class UI,VoiceAPI,Translate,Chat,Upload frontend;
+    class Flask,TF,Model backend;
+    class Gemini,Groq cloud;
+```
+
 ## 🚀 Getting Started
 
 ### Prerequisites

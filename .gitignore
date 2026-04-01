@@ -12,3 +12,10 @@ dist/
 # OS / Editor
 .DS_Store
 *.log
+
+# Python Backend
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+backend/models/*.keras

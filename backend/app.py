@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app) # Allow cross-origin requests from React port 3000
 
 # Path to the Keras model located in workspace root
-MODEL_PATH = os.path.join(os.path.dirname(__file__), '..', 'trained_plant_disease_model.keras')
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'models', 'trained_plant_disease_model.keras')
 TARGET_SIZE = (224, 224) # Fallback size
 
 try:

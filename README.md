@@ -6,7 +6,7 @@ FarmGPT is an advanced, AI-powered agricultural assistant engineered specificall
 
 - **🤖 Digital Krishi Officer (Chatbot):** Powered by Groq's blindingly fast Llama 3.3 70B model. The assistant maintains conversation memory and leverages localized knowledge (seasonality, Thrissur crop calendars, pest advisories, and AIMS Kerala government schemes).
 - **🗣️ Multilingual Voice Engine (STT/TTS):** Speak to the app directly! FarmGPT uses native Web Speech APIs for Speech-to-Text and Text-to-Speech, allowing farmers to interact seamlessly in English, Malayalam, and Tamil without touching a keyboard.
-- **🔬 AI Crop Disease Diagnosis:** A lightweight Flask microservice running a trained Keras/TensorFlow Computer Vision model. Upload a photo of a leaf (e.g., Rice, Coconut, Banana, Tomato), and the AI instantly categorizes the disease, providing severity and specific pesticide/organic treatment recommendations.
+- **🔬 AI Crop Disease Diagnosis:** A lightweight Flask microservice running a trained Keras/TensorFlow Computer Vision model (`plantdoc_optimized_v2.keras`). Upload a photo of a leaf, and the AI instantly categorizes it across 28 specialized crop diseases, providing severity and specific treatment recommendations.
 - **🌐 Universal Real-time Translation:** Powered by the Google Gemini API, the entire React application interface auto-translates to localized languages locally with built-in caching and retry fallbacks.
 - **🚨 Smart Escalation Matrix:** If the AI advisor encounters an unknown or complex physical symptom, it automatically triggers an escalation protocol, prompting the farmer to connect directly with human officers at the Krishibhavan.
 
@@ -46,6 +46,8 @@ npm run dev
 The Frontend is now running at `http://localhost:5173`.
 
 ### 2. Backend Setup (For Image Disease Diagnosis)
+
+> **Important:** Ensure that the `plantdoc_optimized_v2.keras` model file and `plantdoc_class_names.json` map are placed inside the `backend/models/` folder before starting the server.
 ```bash
 # Open a new terminal and navigate to the backend folder
 cd backend

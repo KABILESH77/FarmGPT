@@ -1,5 +1,6 @@
 import os
 import io
+import json
 import numpy as np
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -10,7 +11,7 @@ app = Flask(__name__)
 CORS(app) # Allow cross-origin requests from React port 3000
 
 # Path to the Keras model located in workspace root
-MODEL_PATH = os.path.join(os.path.dirname(__file__), 'models', 'trained_plant_disease_model.keras')
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'models', 'plantdoc_optimized_v2.keras')
 TARGET_SIZE = (224, 224) # Fallback size
 
 try:
@@ -28,12 +29,13 @@ except Exception as e:
     model = None
 
 # Update these to match your model's actual trained classes
-CLASS_NAMES = [
-    "Healthy", 
-    "Tomato Leaf Curl Virus", 
-    "Early Blight", 
-    "Late Blight"
-]
+CLASS_NAMES_PATH = os.path.join(os.path.dirname(__file__), 'models', 'plantdoc_class_names.json')
+try:
+    with open(CLASS_NAMES_PATH, 'r') as f:
+        CLASS_NAMES = json.load(f)
+except Exception as e:
+    print(f"Warning: Could not load class names from {CLASS_NAMES_PATH}. Error: {e}")
+    CLASS_NAMES = []
 
 def preprocess_image(image_bytes):
     img = Image.open(io.BytesIO(image_bytes))
